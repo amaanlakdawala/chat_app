@@ -18,9 +18,10 @@ const getUserProfile = ()=>{
                 console.log("error in getUserProfile Hook")
             }
         }
+        fetchUserData();
     },[dispatch])
 
-    fetchUserData();
+    
     
 }
 

@@ -12,6 +12,9 @@ import {
     REGISTER,
 } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
+import messageSlice from "./messageSlice";
+import socketSlice from "./socketSlice";
+import chatSlice from "./chatSlice";
 
 
 const persistConfig = {
@@ -22,6 +25,9 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
     auth:authSlice,
+    message:messageSlice,
+    socketio:socketSlice,
+    chat:chatSlice
     
 })
 

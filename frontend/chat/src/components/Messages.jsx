@@ -1,52 +1,101 @@
-import React from 'react'
-import useGetAllUsers from '../hooks/useGetAllUsers'
-import { useSelector } from 'react-redux';
+import React, { useEffect, useRef, useState } from 'react'
+
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import useGetAllMessage from '../hooks/useGetAllMessages';
+import { setMessages } from '../redux/messageSlice';
+import '../assets/styling/Messages.css'
+import useGetRTM from '../hooks/useGetRTM';
 
 function Messages() {
-    useGetAllUsers();
-    const {allUsers} = useSelector(state => state.auth);
+  useGetRTM()
+    const dispatch = useDispatch()
+    const {messages} = useSelector(store=>store.message)
+    const {user} = useSelector(store=>store.auth)
+   const [text,setText] = useState('')
+   const { id } = useParams();
+   const messagesEndRef = useRef(null); 
+   const loggedInUserId = user._id
+    useGetAllMessage(id)
+
+    if(!id){
+        console.log("id not available")
+    }
+    useEffect(() => {
+      // Scroll to the bottom of the messages container when messages change
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [messages]);
+   
+
+   const sendMessage = async () =>{
+    try {
+        const res = await axios.post(`http://localhost:8000/api/v1/message/sendMessage/${id}`,{text:text},{
+            headers:{
+                'Content-Type': 'application/json',
+            },
+            withCredentials:true
+        })
+        if(res){
+            console.log("message send")
+            console.log(messages)
+            const newMessage = res.data.message;
+            const updatedMessages = [...messages, newMessage];
+            dispatch(setMessages(updatedMessages))
+        }
+        if(!res) console.log("message not send")
+    } catch (error) {
+        console.log("error in sendMessage of message component")
+        console.log(error)
+    }
+   }
+
+
+   
+
 
   return (
-    <>
-     <div className="container mt-4">
-            <div className="row">
-                {allUsers.map((user, index) => (
-                    <div key={index} className="col-md-4 mb-4">
-                        <div className="card">
-                            <img 
-                                src={user?.profilePic || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQttE9sxpEu1EoZgU2lUF_HtygNLCaz2rZYHg&s"} 
-                                alt={user?.name || 'User Profile'} 
-                                className="card-img-top"
-                                style={{ height: '200px', objectFit: 'cover' }} 
-                            />
-                            <div className="card-body">
-                                <h5 className="card-title">{user?.username}</h5>
-                                <p className="card-text">{user?.bio}</p>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </div>
-     {/* {
-        allUsers.map((user,index)=>(
-            <div key={index}>
-                {
-                    user.profilePic ?  (<img src={user?.profilePic} alt="" />)
-                     : (<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQttE9sxpEu1EoZgU2lUF_HtygNLCaz2rZYHg&s"
-                         alt="" />)
-                }
-               
-                <h2>{user?.name}</h2>
-                <p>{user?.bio}</p>
 
-            </div>
-        ))
-       
 
-        
-    } */}
+
+<>
     
+<div className="chat-wrapper">
+  <div className="messages-container">
+    {messages?.map((message) => (
+      <div
+        key={message._id}
+        className={`message-item ${
+          message.senderId._id === loggedInUserId ? 'message-sent' : 'message-received'
+        }`}
+      >
+        {/* Profile Picture */}
+        <img
+          src={message.senderId.profilePic}
+          alt="profile"
+          className="message-profile-pic"
+        />
+        {/* Message Content */}
+        <div className="message-content">
+          <h6 className="message-username">{message.senderId.username}</h6>
+          <p className="message-text">{message.text}</p>
+        </div>
+      </div>
+    ))}
+    <div ref={messagesEndRef} />
+  </div>
+  <div className="input-container">
+    <input 
+      type="text" 
+      value={text} 
+      onChange={(e) => setText(e.target.value)} 
+      placeholder="Type a message" 
+      className="message-input"
+    />
+    <button onClick={sendMessage} className="send-button">Send Message</button>
+  </div>
+</div>
+
     </>
    
     

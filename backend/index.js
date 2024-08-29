@@ -5,12 +5,13 @@ import dotenv from "dotenv"
 import connectDB from "./utils/db.js";
 import userRoute from './router/user.router.js'  
 import messageRoute from './router/message.router.js'
+import { app, server } from "./socket/socket.js";
 
 
 
 
 
-const app = express();
+
 
 dotenv.config()
 
@@ -47,7 +48,7 @@ app.get("/",(req,res)=>{
 
 //Server
 
-app.listen(process.env.PORT, ()=>{
+server.listen(process.env.PORT, ()=>{
     connectDB();
    console.log("server running");
    

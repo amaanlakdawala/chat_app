@@ -5,6 +5,7 @@ const authSlice = createSlice({
     initialState: {
         user: null,
         allUsers:null,
+        messagedUsers:[]
     },
     reducers: {
         setAuthUser:(state,action)=>{
@@ -12,11 +13,15 @@ const authSlice = createSlice({
         },
         setAllUsers:(state,action)=>{
              state.allUsers = action.payload
-        }
+        },
+        setMessagedUsers:(state,action)=>{
+            state.messagedUsers = action.payload
+            }
 }})
 export const {
     setAuthUser,
-    setAllUsers
+    setAllUsers,
+    setMessagedUsers
 
 } = authSlice.actions
 

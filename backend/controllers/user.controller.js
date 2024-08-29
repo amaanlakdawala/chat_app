@@ -139,12 +139,6 @@ export const updateProfile = async (req, res) => {
         
         const updateData = {};
 
-        if(!profilePic){
-            return res.status(400).json({
-                message: "Please upload a profile picture",
-                success: false
-            })
-        }
 
        
         if (profilePic) {

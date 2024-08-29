@@ -1,0 +1,60 @@
+.custom-sidebar {
+    background-color: #7695FF; /* Primary dark blue */
+    height: 100vh;
+    width: 100%;
+    padding-top: 20px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .custom-sidebar:hover {
+    background-color: #9DBDFF; /* Lighter blue on hover */
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
+  }
+  
+  .profile-pic-container img {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0px 0px 10px rgba(255, 152, 116, 0.5); /* Soft orange shadow */
+  }
+  
+  .profile-pic-container img:hover {
+    transform: scale(1.15);
+    box-shadow: 0px 0px 20px rgba(255, 152, 116, 0.7); /* Stronger shadow */
+  }
+  
+  .custom-link {
+    color: #FFFFFF !important; /* Default white text */
+    background-color: #7695FF !important; /* Default blue background */
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+    text-transform: capitalize;
+  }
+  
+  .custom-link:hover {
+    background-color: #FFD7C4 !important; /* Peach background on hover */
+    color: #7695FF !important; /* Blue text on hover */
+    transform: translateX(7px);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  .animated-profile-pic {
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  h5 {
+    color:#7695FF ;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
